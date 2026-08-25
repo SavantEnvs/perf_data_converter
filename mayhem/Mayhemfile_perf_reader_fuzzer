@@ -1,0 +1,10 @@
+project: savantenvs/perf_data_converter
+target: perf_reader_fuzzer
+testsuite:
+  - https://$MAYHEM_DOMAIN/$MAYHEM_PROJECT/$MAYHEM_TARGET/testsuite.tar
+  - file://mayhem/perf_reader_fuzzer/testsuite
+
+cmds:
+  - cmd: /mayhem/perf_reader_fuzzer
+    libfuzzer: true
+    timeout: 30
