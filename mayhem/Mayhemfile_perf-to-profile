@@ -1,0 +1,19 @@
+# Backport target `perf-to-profile-buggy-mhh-run-15` -- reproduces the mayhemheroes bug found at
+# mayhemheroes/perf_data_converter's `perf-to-profile` target, run 15 (issue #1054).
+#
+# File-input target (`perf_to_profile -i <file> -o /dev/null`): a plain sanitized (ASan+UBSan)
+# build with NO compile-time AFL/SanCov instrumentation -- Mayhem's own engine instruments/executes
+# the ELF directly. Each input runs in a fresh forked process. `-o /dev/null` matches the original
+# mayhemheroes cmd exactly (input delivery must stay byte-for-byte identical to the harness that
+# found the bug).
+#
+# origin: https://app.mayhem.security/mayhemheroes/perf-data-converter/perf-to-profile/15
+project: savantenvs/perf_data_converter
+target: perf-to-profile-buggy-mhh-run-15
+
+testsuite:
+  - https://$MAYHEM_DOMAIN/$MAYHEM_PROJECT/$MAYHEM_TARGET/testsuite.tar
+
+cmds:
+  - cmd: /mayhem/perf_to_profile -i @@ -o /dev/null
+    timeout: 15
